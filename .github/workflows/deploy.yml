@@ -35,3 +35,5 @@ jobs:
 
           docker build -t $REPOSITORY_URI .
           docker push $REPOSITORY_URI
+
+# Triggered redeploy
