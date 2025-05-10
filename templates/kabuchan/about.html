@@ -1,0 +1,20 @@
+{% extends "base/kabuchan_base.html" %}
+{% load static %}
+{% block body %}
+
+<div class="about-container">
+  <h2>かぶちゃんについて</h2>
+  <div class="about-content">
+    <img src="{% static 'kabuchan_pngs/kabuchan_default_touka.png' %}" alt="かぶちゃん" class="about-face">
+    <p>
+      かぶちゃんは、あなたの株取引をちょっぴり応援するAI風の女の子だよ。<br>
+      明日の株価が上がるか下がるかの予想や、おすすめ銘柄を教えてくれるよ！<br>
+      難しいことは苦手だけど、がんばって覚えていくよ！<br>
+      かぶちゃんは機械学習モデルを使って頑張ってお勉強してるけど<br>
+      間違っちゃうこともあるから予想が外れてもあんまり責めないでね🥺</br>
+      全部で4412個の銘柄を予想できるよ！
+    </p>
+  </div>
+</div>
+
+{% endblock %}

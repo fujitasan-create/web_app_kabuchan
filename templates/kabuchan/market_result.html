@@ -1,0 +1,24 @@
+{% extends 'base/kabuchan_base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+  <div class="kabuchan">
+    <div
+      class="face thinking-face kabuchan-face"
+      data-face-class="{{ face_class }}"
+      data-mood="{{ mood }}"
+      data-score="{{ score }}"
+    ></div>
+
+    <div class="speech-bubble" id="kabuchan-message">
+      <p class="speech-title">今日の市場の様子は・・・</p>
+      <p>うーん…ちょっと考え中…🤔</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/market_result.js' %}"></script>
+{% endblock %}

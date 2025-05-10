@@ -1,0 +1,302 @@
+/* ほーむ */
+
+body {
+  font-family: 'Potta One', cursive;
+  background-color: #e3edfc;
+  padding: 2rem;
+  font-family: 'Potta One', cursive;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kabuchan {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.speech-bubble {
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow: 4px 4px 0 #333;
+  max-width: 300px;
+}
+
+.speech-bubble::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 30px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right-color: #fff;
+  z-index: 1;
+}
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  left: -22px;
+  top: 28px;
+  width: 0;
+  height: 0;
+  border: 12px solid transparent;
+  border-right-color: #333;
+  z-index: 0;
+}
+
+ul {
+  list-style-type: disc;
+  margin-left: 1.2em;
+}
+
+.face {
+  width: 120px;
+  height: 120px;
+  background-image: url("../kabuchan_pngs/kabuchan_default_touka.png");
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  border: 2px solid #333;
+}
+
+/* かぶちゃんについて */
+
+.about-container {
+  background-color: #ffffff;
+  padding: 3rem 2rem;
+  margin: 3rem auto;
+  max-width: 1200px;
+  border-radius: 1rem;
+  box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+  font-family: 'Potta One', cursive;
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: row;
+  font-size: 1.5rem;
+}
+
+.about-face {
+  width: 200px;
+  height: 280px;
+  border-radius: 50%;
+  border: 2px solid #333;
+}
+
+.stock-name {
+  color: #0077cc;
+  font-size: 4.0rem;
+}
+
+#recommendstock{
+  font-size: 2.0rem;
+}
+
+
+
+.default-face {
+  background-image: url("/static/kabuchan_pngs/kabuchan_default.png");
+}
+
+/* 入力フォームの見た目 */
+.predict-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stock-input {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 250px;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 0 #999;
+}
+
+.predict-button {
+  font-size: 1.2rem;
+  padding: 0.5rem 1.5rem;
+  background-color: #ffda7b;
+  border: 2px solid #333;
+  border-radius: 0.7rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #333;
+  transition: 0.2s;
+}
+
+.predict-button:hover {
+  background-color: #ffeaa7;
+  transform: translateY(-2px);
+}
+
+
+
+
+/* かぶちゃん画像 */
+#kabuchan-face {
+  background-image: url("/static/kabuchan_pngs/kabuchan_thinking_touka.png");
+}
+
+
+.thinking-face {
+  background-image: url("/static/kabuchan_pngs/kabuchan_thinking_touka.png");
+}
+
+
+.very-happy-face {
+  background-image: url("/static/kabuchan_pngs/kabuchan_happy_touka.png");
+}
+
+.happy-face {
+  background-image: url("/static/kabuchan_pngs/kabuchan_littlehappy_touka.png");
+}
+
+.neutral-face {
+  background-image: url("/static/kabuchan_pngs/kabuchan_default_touka.png");
+}
+
+.sad-face {
+  background-image: url("/static/kabuchan_pngs/kabuchan_littlesad_touka.png");
+}
+
+.very-sad-face {
+  background-image: url("/static/kabuchan_pngs/kabuchan_sad_touka.png");
+}
+
+
+
+
+
+/* 予想文字色 */
+
+.stock-up {
+  color: red;
+}
+
+.stock-down {
+  color: blue;
+}
+
+/* レスポンシブ対応 */
+
+
+@media (min-width: 768px) {
+  .face {
+    width: 300px;
+    height: 300px;
+    margin-left: 0rem;
+  }
+
+  .speech-bubble {
+    font-size: 1.2rem;
+    padding: 4rem;
+    max-width: 600px;
+  }
+
+  .speech-bubble ul {
+    margin-left: 3rem;
+  }
+
+  .speech-bubble li {
+    margin-bottom: 1rem;
+    font-size: 2.0rem;
+  }
+
+  .speech-bubble p {
+    font-size: 4.0rem;
+    margin-bottom: 3rem;
+    margin-top: 0;
+  }
+
+  .kabuchan {
+    gap: 2rem;
+  }
+
+  .container {
+    gap: 2rem;
+  }
+
+  h1 a {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-face {
+    margin: 0 auto;
+  }
+
+  .about-container {
+    padding: 1.5rem;
+  }
+
+   p {
+    padding: 0 0.5rem;  
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .kabuchan {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .face {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 1rem;
+  }
+
+  .speech-bubble {
+    max-width: 90%;
+    padding: 1.2rem;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .stock-name {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .kabuchan {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .face {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 1rem;
+  }
+
+  .speech-bubble {
+    max-width: 90%;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .stock-name {
+    font-size: 1.5rem;
+  }
+}

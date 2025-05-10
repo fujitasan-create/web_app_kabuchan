@@ -1,0 +1,29 @@
+{% extends "base/kabuchan_base.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+  <div class="kabuchan">
+    <div class="face" id="kabuchan-face"></div>
+    <div class="speech-bubble">
+      <p id="thinking-message">うーん・・・ちょっと考え中・・・🤔</p>
+    </div>
+  </div>
+
+  <form id="predict-form" method="post" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="stock_name" value="{{ stock_name }}">
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    // 2秒考えてからフォーム自動送信
+    setTimeout(() => {
+      document.getElementById("predict-form").submit();
+    }, 2000);
+  });
+</script>
+{% endblock %}

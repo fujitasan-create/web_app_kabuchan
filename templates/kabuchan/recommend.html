@@ -1,0 +1,23 @@
+{% extends "base/kabuchan_base.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+  <div class="kabuchan">
+    
+    <div class="face" id="kabuchan-face"></div>
+
+    
+    <div class="speech-bubble" id="speech-bubble" style="display: none;">
+      <p id="recommendstock">📣 おすすめ銘柄は・・・</p>
+      <ul>
+        <li><span class="stock-name">📈 {{ stock }}</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/recommend.js' %}"></script>
+{% endblock %}

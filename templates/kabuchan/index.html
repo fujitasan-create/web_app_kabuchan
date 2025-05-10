@@ -1,0 +1,19 @@
+{% extends "base/kabuchan_base.html" %}
+{% block body %}
+
+<div class="container">
+  <div class="kabuchan">
+    <div class="face"></div>
+    <div class="speech-bubble">
+      <p>ほーむ</p>
+      <ul>
+        <li><a href="{% url 'kabuchan:predict' %}">かぶちゃんに予想してもらう</a></li>
+        <li><a href="{% url 'kabuchan:market_result' %}">今日の市場の様子は？(デモ機能)</a></li>
+        <li><a href="{% url 'kabuchan:recommend' %}">かぶちゃんのおすすめの銘柄を教えて！</a></li>
+        <li><a href="{% url 'kabuchan:about' %}">かぶちゃんについて</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

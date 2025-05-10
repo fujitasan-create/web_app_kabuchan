@@ -1,0 +1,34 @@
+{% extends 'base/kabuchan_base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container">
+  <div class="kabuchan">
+    {% if not_found %}
+      <div class="face sad-face"></div>
+      <div class="speech-bubble">
+        <p class="speech-title">あれれ？</p>
+        <p>「{{ stock_name }}」という銘柄は見つからなかったよ…😢</p>
+        <p><a href="{% url 'kabuchan:predict' %}">もう一度ためしてみる</a></p>
+      </div>
+    {% else %}
+      {% if prediction == "明日は上がるかも！📈" %}
+        <div class="face very-happy-face"></div>
+      {% else %}
+        <div class="face very-sad-face"></div>
+      {% endif %}
+      <div class="speech-bubble">
+        <p class="speech-title">{{ stock_name }} の予想は・・・</p>
+        <ul>
+          <li>
+            <span class="stock-name {% if prediction == '明日は上がるかも！📈' %}stock-up{% else %}stock-down{% endif %}">
+              {{ prediction }}
+            </span>
+          </li>
+          <li>上がる確率：{{ probability }}</li>
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

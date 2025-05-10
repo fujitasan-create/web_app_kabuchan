@@ -1,0 +1,16 @@
+{% extends "base/kabuchan_base.html" %}
+{% block body %}
+<div class="container">
+  <div class="kabuchan">
+    <div class="face" class="face default-face"></div>
+    <div class="speech-bubble">
+      <form method="get" action="{% url 'kabuchan:predict' %}">
+        <p class="speech-title">銘柄名を入力してね</p>
+        <input type="text" name="stock_name" placeholder="例：トヨタ自動車" required style="font-size:1.2rem; padding:0.5rem;">
+        <br><br>
+        <button type="submit" style="font-size:1.2rem; padding:0.5rem 1rem;">予想してもらう！</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
