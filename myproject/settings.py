@@ -14,8 +14,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'dummy-secret-key')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
 # Application definition
 INSTALLED_APPS = [
