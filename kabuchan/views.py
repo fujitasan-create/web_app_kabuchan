@@ -9,6 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import GradientBoostingClassifier
 from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import train_test_split
+import datetime
 
 
 class IndexView(V):
@@ -53,8 +54,11 @@ class PredictStockView(V):
             return render(request, 'kabuchan/predict.html', {
                 'error': f"「{stock_name}」は見つかりませんでした。"
             })
+        
+        today = datetime.date.today().strftime("%Y-%m-%d")
 
-        df = yf.download(ticker, start='2021-01-01', end='2025-04-15')
+
+        df = yf.download(ticker, start='2021-01-01', end=today)
         close = df['Close'].squeeze()
         df['target'] = ((df['Close'].shift(-1) / df['Close']) > 1.01).astype(int)
 
@@ -105,11 +109,12 @@ class PredictStockView(V):
         model = GradientBoostingClassifier(max_depth=5, n_estimators=200,
                                            subsample=0.8, learning_rate=0.10)
         model.fit(X_train_resampled, y_train_resampled)
-        proba = model.predict_proba(X_test)[:, 1]
-        threshold = 0.25
-        pred = (proba >= threshold).astype(int)
+        X_latest = X_scaled[-1].reshape(1, -1)  
+        last_proba = model.predict_proba(X_latest)[0, 1]  
 
-        last_proba = proba[-1]
+        threshold = 0.25
+        pred = (last_proba >= threshold).astype(int)
+
         last_pred = "明日は上がるかも！📈" if last_proba >= threshold else "うーん…明日は厳しそう📉"
 
         return render(request, 'kabuchan/predict_result.html', {

@@ -5,10 +5,8 @@ window.addEventListener("DOMContentLoaded", () => {
     const mood = face.dataset.mood;
     const score = face.dataset.score;
 
-    // 表情を変更
     face.className = "face " + faceClass;
 
-    // メッセージを書き換える
     const message = document.getElementById("kabuchan-message");
     message.innerHTML = `
       <p class="speech-title">今日の市場の様子は・・・</p>
