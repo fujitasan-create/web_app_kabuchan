@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.views import View as V
+from django.conf import settings
 import random
 import os
-import pandas as pd
 import pandas as pd
 import yfinance as yf
 from sklearn.preprocessing import StandardScaler
@@ -10,6 +10,9 @@ from sklearn.ensemble import GradientBoostingClassifier
 from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import train_test_split
 import datetime
+import requests
+import jaconv
+from bs4 import BeautifulSoup
 
 
 class IndexView(V):
@@ -122,32 +125,93 @@ class PredictStockView(V):
             'prediction': last_pred,
             'probability': f"{last_proba*100:.2f} %"
         })
-    
 
+def load_emotion_dict():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    dict_path = os.path.join(base_dir, 'kabuchan', 'data', 'emotions')
+
+    emotion_dict = {}
+    for fname in os.listdir(dict_path):
+        if fname.endswith("_uncoded.txt"):
+            label = fname.replace("_uncoded.txt", "")
+            with open(os.path.join(dict_path, fname), "r", encoding="utf-8") as f:
+                words = [line.strip() for line in f if line.strip()]
+                emotion_dict[label] = words
+    return emotion_dict
+
+emotion_dict = load_emotion_dict()
+
+# --- 感情分析（テキスト1つに対して） ---
+def analyze_emotion(text):
+    text = jaconv.kata2hira(jaconv.z2h(text, kana=True, digit=True, ascii=True))
+    result = {}
+    for label, words in emotion_dict.items():
+        hits = [w for w in words if w in text]
+        if hits:
+            result[label] = hits
+    return {"text": text, "emotion": result if result else None}
+
+# --- Yahooニュースから見出しを取得 ---
+def fetch_yahoo_titles():
+    url = 'https://news.yahoo.co.jp/categories/business'
+    res = requests.get(url)
+    soup = BeautifulSoup(res.text, 'html.parser')
+
+    titles = []
+    articles = soup.find_all('a')
+
+    for a in articles:
+        href = a.get('href')
+        if href and '/articles/' in href:
+            title = a.get_text(strip=True)
+            if title and len(title) > 5:
+                titles.append(title)
+        if len(titles) >= 10:  # 上位10件だけ使う
+            break
+
+    return titles
+
+# --- Djangoビュー ---
 class MarketMoodView(V):
     def get(self, request):
-        score = random.randint(1, 5)
+        titles = fetch_yahoo_titles()
+        emotion_counter = {}
 
-        if score == 1:
-            mood = "とっても悲しい気分…📉"
-            face_class = "very-sad-face"
-        elif score == 2:
-            mood = "ちょっと元気ないかも…😢"
-            face_class = "sad-face"
-        elif score == 3:
-            mood = "ふつうかな〜🤔"
-            face_class = "neutral-face"
-        elif score == 4:
-            mood = "いい感じかも！✨"
-            face_class = "happy-face"
-        else:  # 5
-            mood = "絶好調〜！📈🎉"
-            face_class = "very-happy-face"
+        for title in titles:
+            result = analyze_emotion(title)
+            if result["emotion"]:
+                for k in result["emotion"]:
+                    emotion_counter[k] = emotion_counter.get(k, 0) + 1
+
+        # --- スコアを計算 ---
+        pos = emotion_counter.get("喜", 0) + emotion_counter.get("好", 0)
+        neg = emotion_counter.get("哀", 0) + emotion_counter.get("怒", 0) + emotion_counter.get("嫌", 0)
+
+        if pos >= 5:
+            score = 5
+        elif pos >= 3:
+            score = 4
+        elif neg >= 5:
+            score = 1
+        elif neg >= 3:
+            score = 2
+        else:
+            score = 3
+
+        mood_dict = {
+            1: ("とっても悲しい気分…📉", "very-sad-face"),
+            2: ("ちょっと元気ないかも…😢", "sad-face"),
+            3: ("ふつうかな〜🤔", "neutral-face"),
+            4: ("いい感じかも！✨", "happy-face"),
+            5: ("絶好調〜！📈🎉", "very-happy-face"),
+        }
+
+        mood, face_class = mood_dict[score]
 
         return render(request, "kabuchan/market_result.html", {
             "score": score,
             "mood": mood,
-            "face_class": face_class
+            "face_class": face_class,
         })
 
 
