@@ -5,3 +5,6 @@ scikit-learn
 imbalanced-learn
 matplotlib
 whitenoise
+beautifulsoup4
+jaconv
+requests
